@@ -1,0 +1,41 @@
+DATABASE_URL="file:./dev.db" <- Pour Sqlite
+
+AUTH_GITHUB_ID=""
+AUTH_GITHUB_SECRET=""
+
+AUTH_GOOGLE_ID=""
+AUTH_GOOGLE_SECRET=""
+
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=""
+STRIPE_SECRET_KEY=""
+
+@stripe/react-stripe-js @stripe/stripe-js stripe axios
+
+Mises a jour V2.0 BoilerPlate : 
+example avec les nouveautés : 
+
+export const createNewPost = authenticatedAction
+  .schema(z.object({
+    title: z.string(),
+    content: z.string(),
+    image: z.string(),
+    categories: z.array(z.string())
+  }))
+  .action(async ({parsedInput: {title, content, image, categories}, ctx: {userId}}) => {
+    const create = await prisma.posts.create({
+      data: {
+        title,
+        content,
+        image,
+        categories: {
+          connectOrCreate: categories.map((category: any) => ({
+            where: {name: category},
+            create: {name: category}
+          }))
+        },
+        slug: title.toLowerCase().replace(/ /g, "-"),
+        authorId: userId
+      }
+    })
+    return create
+  })
