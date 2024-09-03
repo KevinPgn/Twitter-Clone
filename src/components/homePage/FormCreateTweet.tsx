@@ -4,11 +4,13 @@ import { Button } from '../ui/button';
 import { Image, ImagePlay, List, Smile, CalendarClock, MapPin } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import EmojiPicker, { Theme } from 'emoji-picker-react';
+import { useRouter } from 'next/navigation';
 
 export const FormCreateTweet = ({user}: {user: any}) => {
   const [content, setContent] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const limitContent = 280;
+  const router = useRouter();
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const { register, handleSubmit } = useForm();
 
@@ -28,7 +30,9 @@ export const FormCreateTweet = ({user}: {user: any}) => {
   };
 
   return <div className="flex gap-3 items-start border-b border-white/10 p-4">
-    <img src={user.image} alt="user pdp" className="w-10 h-10 rounded-full" />
+    <img
+    onClick={() => router.push(`/profile/${user.id}`)}
+    src={user.image} alt="user pdp" className="w-10 h-10 rounded-full cursor-pointer" />
 
     <div className="flex flex-1 flex-col gap-2 py-1">
         <textarea 
