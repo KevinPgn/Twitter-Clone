@@ -4,7 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 export const Links = () => {
   const pathname = usePathname()
-  return <div className="mt-5 flex flex-col gap-2">
+  return <div className="mt-2 flex flex-col gap-2">
     <Link href="/" className={`flex items-center w-fit gap-4 rounded-full hover:bg-white/10 duration-75 p-3 ${pathname === "/" ? "font-bold" : ""}`}>
       <Home size={25} className={`${pathname === "/" ? "text-white" : "text-gray-300"}`}/>
       <span className="text-lg">Accueil</span>
