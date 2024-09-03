@@ -40,7 +40,7 @@ export const Links = () => {
     </Link>
     <Link href="/organisations" className="flex items-center w-fit gap-4 rounded-full hover:bg-white/10 duration-75 p-3">
       <CloudLightning size={25} className={`${pathname === "/organisations" ? "text-white" : "text-gray-300"}`}/>
-      <span className="text-lg">Organisations certifiées</span>
+      <span className="text-lg">Organisations certi</span>
     </Link>
     <Link href="/profil" className="flex items-center w-fit gap-4 rounded-full hover:bg-white/10 duration-75 p-3">
       <User size={25} className={`${pathname === "/profil" ? "text-white" : "text-gray-300"}`}/>
