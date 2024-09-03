@@ -49,12 +49,12 @@ export const FormCreateTweet = ({user}: {user: any}) => {
             <div className='flex items-center gap-4'>
                 <Image size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
                 <ImagePlay size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
-                <List size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
                 <Smile 
                 onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                 size={20} className='cursor-pointer relative text-blue-400 hover:text-blue-500 duration-75'/>
-                <CalendarClock size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
-                <MapPin size={20} className='cursor-not-allowed text-gray-700'/>
+                <List size={20} className='text-gray-700'/>
+                <CalendarClock size={20} className='text-gray-700'/>
+                <MapPin size={20} className='text-gray-700'/>
             
                 {showEmojiPicker && (
                   <div className='absolute bottom-10 left-0'>
