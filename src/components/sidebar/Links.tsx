@@ -2,6 +2,7 @@
 import {Home, Search, Bell, Mail, Bookmark, Wallet, Users2, X, CloudLightning, User, CircleEllipsis} from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+
 export const Links = () => {
   const pathname = usePathname()
   return <div className="mt-2 flex flex-col gap-2">
@@ -34,7 +35,7 @@ export const Links = () => {
       <span className="text-lg">Communautés</span>
     </Link>
     <Link href="/premium" className="flex items-center w-fit gap-4 rounded-full hover:bg-white/10 duration-75 p-3">
-      <X size={25} className={`${pathname === "/premium" ? "text-white" : "text-gray-300"}`}/>
+      <img src="/logo-twitter-x.jpg" alt="premium" className="w-7 h-7 cursor-pointer rounded-full" />
       <span className="text-lg">Premium</span>
     </Link>
     <Link href="/organisations" className="flex items-center w-fit gap-4 rounded-full hover:bg-white/10 duration-75 p-3">
