@@ -1,5 +1,6 @@
 "use server"
 import prisma from "@/lib/prisma"
+import {cloudinary, UploadApiResponse, UploadApiErrorResponse} from "@/lib/cloudinary"
 import {z} from "zod"
 import { authenticatedAction } from "@/lib/safe-actions"
 import { revalidatePath } from "next/cache"
@@ -110,10 +111,22 @@ export const createTweet = authenticatedAction
         imageUrl: z.string().optional(),
     }))
     .action(async ({parsedInput: {content, imageUrl}, ctx: {userId}}) => {
-         await prisma.tweet.create({
+      let image: string | null = null
+
+      if (image) {
+        const uploadResponse: UploadApiResponse | UploadApiErrorResponse = await cloudinary.uploader.upload(image, {
+          folder: 'tweets',
+        });
+        if ('error' in uploadResponse) {
+          throw new Error(uploadResponse.error.message);
+        }
+        image = uploadResponse.secure_url
+      }
+
+      await prisma.tweet.create({
             data: {
                 content,
-                imageUrl,
+                imageUrl: image,
                 authorId: userId,
             }
         })
