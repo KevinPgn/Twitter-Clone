@@ -2,6 +2,7 @@
 import prisma from "@/lib/prisma"
 import {z} from "zod"
 import { authenticatedAction } from "@/lib/safe-actions"
+import { revalidatePath } from "next/cache"
 /*
 // We make a twitter clone with Nextjs and prisma
 
@@ -103,3 +104,20 @@ model Follow {
 
 */
 
+export const createTweet = authenticatedAction
+    .schema(z.object({
+        content: z.string().min(1).max(280),
+        imageUrl: z.string().optional(),
+    }))
+    .action(async ({parsedInput: {content, imageUrl}, ctx: {userId}}) => {
+         await prisma.tweet.create({
+            data: {
+                content,
+                imageUrl,
+                authorId: userId,
+            }
+        })
+
+        revalidatePath("/")
+        return {success: true}
+    })
