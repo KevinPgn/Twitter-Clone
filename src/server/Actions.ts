@@ -1,3 +1,105 @@
 "use server"
 import prisma from "@/lib/prisma"
 import {z} from "zod"
+import { authenticatedAction } from "@/lib/safe-actions"
+/*
+// We make a twitter clone with Nextjs and prisma
+
+model Tweet {
+  id String @id @default(cuid())
+  content String
+  imageUrl String?
+  views Int @default(0)
+
+  authorId String
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  likes Likes[]
+  comments Comment[]
+  retweets Retweet[]
+  bookmarks Bookmark[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Likes {
+  id String @id @default(cuid())
+
+  authorId String
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  tweetId String
+  tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([authorId, tweetId])
+}
+
+model Comment {
+  id String @id @default(cuid())
+  content String
+
+  tweetId String
+  tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  parentId String?
+  parent Comment? @relation("replies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies Comment[] @relation("replies")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Retweet {
+  id String @id @default(cuid())
+
+  authorId String
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  tweetId String
+  tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([authorId, tweetId])
+}
+
+model Bookmark {
+  id String @id @default(cuid())
+
+  authorId String
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  tweetId String
+  tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([authorId, tweetId])
+}
+
+model Follow {
+  id String @id @default(cuid())
+
+  followerId String
+  follower User @relation(name: "followers", fields: [followerId], references: [id], onDelete: Cascade)
+
+  followingId String
+  following User @relation(name: "following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([followerId, followingId])
+}
+
+*/
+
