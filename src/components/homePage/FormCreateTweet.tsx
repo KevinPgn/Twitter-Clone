@@ -3,11 +3,13 @@ import { useState, useRef, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Image, ImagePlay, List, Smile, CalendarClock, MapPin } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import EmojiPicker, { Theme } from 'emoji-picker-react';
 
 export const FormCreateTweet = ({user}: {user: any}) => {
   const [content, setContent] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const limitContent = 280;
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const { register, handleSubmit } = useForm();
 
   useEffect(() => {
@@ -18,6 +20,11 @@ export const FormCreateTweet = ({user}: {user: any}) => {
   }, [content]);
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
+  };
+
+  const handleEmojiClick = (emojiData: any) => {
+    setContent(prevContent => prevContent + emojiData.emoji);
+    setShowEmojiPicker(false);
   };
 
   return <div className="flex gap-3 items-start border-b border-white/10 p-4">
@@ -43,9 +50,20 @@ export const FormCreateTweet = ({user}: {user: any}) => {
                 <Image size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
                 <ImagePlay size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
                 <List size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
-                <Smile size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
+                <Smile 
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                size={20} className='cursor-pointer relative text-blue-400 hover:text-blue-500 duration-75'/>
                 <CalendarClock size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
                 <MapPin size={20} className='cursor-not-allowed text-gray-700'/>
+            
+                {showEmojiPicker && (
+                  <div className='absolute bottom-10 left-0'>
+                    <EmojiPicker
+                    theme={Theme.DARK}
+                    skinTonesDisabled
+                    onEmojiClick={handleEmojiClick} />
+                  </div>
+                )}
             </div>
             <div className='flex items-center gap-2'>
 
