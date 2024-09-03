@@ -13,13 +13,20 @@ model User {
   email         String?         @unique
   emailVerified DateTime?
   image         String?
+  bio           String?
   plan          String?         @default("free")
+  birthday      DateTime?
+  banner     String?
+  location      String?
+  websiteUrl    String?
+  
   accounts      Account[]
   sessions      Session[]
   tweets        Tweet[]
   likes         Likes[]
   comments      Comment[]
   retweets      Retweet[]
+  bookmarks     Bookmark[]
   followers     Follow[] @relation("followers")
   following     Follow[] @relation("following")
   communities   CommunityMember[]
@@ -85,6 +92,7 @@ model Tweet {
   likes Likes[]
   comments Comment[]
   retweets Retweet[]
+  bookmarks Bookmark[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -124,6 +132,21 @@ model Comment {
 }
 
 model Retweet {
+  id String @id @default(cuid())
+
+  authorId String
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  tweetId String
+  tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([authorId, tweetId])
+}
+
+model Bookmark {
   id String @id @default(cuid())
 
   authorId String
