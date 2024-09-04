@@ -3,20 +3,22 @@ import { formatDistanceToNow } from "date-fns"
 import { FiMessageCircle, FiHeart, FiBookmark, FiShare } from "react-icons/fi";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { IoIosStats } from "react-icons/io";
+import { EllipsisTweet } from "./EllipsisTweet";
 
-export const AllTweets = ({tweet}: {tweet: any}) => {
+export const AllTweets = ({tweet, user}: {tweet: any, user: any}) => {
   return <div className="flex items-start gap-3 px-4 border-b border-white/10 p-3">
     <Link href={`/profile/${tweet.author.id}`}>
       <img src={tweet.author.image} alt="author post image" className="w-10 h-10 cursor-pointer rounded-full" />
     </Link>
     <div className="flex flex-col flex-1">
-      <div className="flex items-center gap-1">
+      <div className="flex relative items-center gap-1">
         <Link href={`/profile/${tweet.author.id}`} className="flex items-center gap-3">
           <span className="text-sm text-white font-semibold">{tweet.author.name}</span>
           <span className="text-sm text-gray-500 font-normal">
             {formatDistanceToNow(tweet.createdAt, {addSuffix: false}).replace('about ', '').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
           </span>
         </Link>
+        {user && user.id === tweet.author.id && <EllipsisTweet tweetId={tweet.id} />}
       </div>
       <p className="text-md text-white/90 mt-3">{tweet.content}</p>
       {tweet.imageUrl && <img src={tweet.imageUrl} alt="tweet image" className="w-full h-full object-cover mt-3 rounded-xl" />}

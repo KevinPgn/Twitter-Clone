@@ -12,7 +12,13 @@ export default async function Home() {
   const tweets = await prisma.tweet.findMany({
     select: {
       id: true,
-      author: true,
+      author: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        }
+      },
       content: true,
       imageUrl: true,
       createdAt: true,
@@ -37,10 +43,10 @@ export default async function Home() {
       <main className="flex-1 h-full border-l border-r border-white/10">
         <Categories />
         <FormCreateTweet user={user}/>
-        
+
         {tweets.length > 0 ? (
           tweets.map((tweet) => (
-            <AllTweets key={tweet.id} tweet={tweet}/>
+            <AllTweets key={tweet.id} tweet={tweet} user={user}/>
           ))
         ): null}
 
