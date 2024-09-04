@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { formatDistanceToNow } from "date-fns"
-import { FiMessageCircle, FiHeart, FiBookmark, FiShare } from "react-icons/fi";
+import { FiMessageCircle, FiBookmark, FiShare } from "react-icons/fi";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { IoIosStats } from "react-icons/io";
 import { EllipsisTweet } from "./EllipsisTweet";

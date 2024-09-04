@@ -197,23 +197,3 @@ export const likeTheTweet = authenticatedAction
 
         revalidatePath(`/`);
     });
-
-export const checkIfTheUserHasAlreadyLikedTheTweet = authenticatedAction
-    .schema(z.object({
-        tweetId: z.string(),
-    }))
-    .action(async ({ parsedInput: { tweetId }, ctx: { userId } }) => {
-        const existingLike = await prisma.likes.findUnique({
-            where: {
-                authorId_tweetId: {
-                    authorId: userId,
-                    tweetId,
-                }
-            },
-            select: {
-                authorId: true,
-            }
-        });
-
-        return existingLike;
-    });
