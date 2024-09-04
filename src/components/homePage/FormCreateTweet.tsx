@@ -5,7 +5,7 @@ import { Image, ImagePlay, List, Smile, CalendarClock, MapPin } from 'lucide-rea
 import EmojiPicker, { Theme } from 'emoji-picker-react';
 import { useRouter } from 'next/navigation';
 import { createTweet } from '@/server/Actions';
-import { UploadButton, UploadDropzone } from '@/lib/uploadthing';
+import { UploadDropzone } from '@/lib/uploadthing';
 
 export const FormCreateTweet = ({user}: {user: any}) => {
   const [content, setContent] = useState<string>('');
