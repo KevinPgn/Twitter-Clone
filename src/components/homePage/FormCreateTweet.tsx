@@ -9,7 +9,7 @@ import { UploadDropzone } from '@/lib/uploadthing';
 
 export const FormCreateTweet = ({user}: {user: any}) => {
   const [content, setContent] = useState<string>('');
-  const [image, setImage] = useState<string | null>("");
+  const [image, setImage] = useState<string>("");
   const [isActive, setIsActive] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -41,10 +41,10 @@ export const FormCreateTweet = ({user}: {user: any}) => {
     e.preventDefault();
     if (content.length === 0 || content.length > limitContent) return;
     try {
-      const test = await createTweet({content, imageUrl: image});
+      const test = await createTweet({content, imageUrl: image || ""});
       console.log(test);
       setContent('');
-      setImage(null);
+      setImage("");
     } catch (error) {
       console.error(error);
     }
