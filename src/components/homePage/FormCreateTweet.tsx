@@ -5,7 +5,7 @@ import { Image, ImagePlay, List, Smile, CalendarClock, MapPin } from 'lucide-rea
 import EmojiPicker, { Theme } from 'emoji-picker-react';
 import { useRouter } from 'next/navigation';
 import { createTweet } from '@/server/Actions';
-import { UploadButton } from '@/lib/uploadthing';
+import { UploadButton, UploadDropzone } from '@/lib/uploadthing';
 
 export const FormCreateTweet = ({user}: {user: any}) => {
   const [content, setContent] = useState<string>('');
@@ -128,7 +128,7 @@ export const FormCreateTweet = ({user}: {user: any}) => {
         <div
         onClick={(e) => e.stopPropagation()}
         className='bg-white/10 p-4 rounded-lg'>
-          <UploadButton
+          <UploadDropzone
         endpoint="imageUploader"
         onClientUploadComplete={(res) => {
           setImage(res[0].url);
