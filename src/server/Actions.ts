@@ -121,3 +121,29 @@ export const createTweet = authenticatedAction
         revalidatePath("/")
         return {success: true}
     })
+
+export const deleteTweet = authenticatedAction
+    .schema(z.object({
+        tweetId: z.string(),
+    }))
+    .action(async ({ parsedInput: { tweetId }, ctx: { userId } }) => {
+        const tweet = await prisma.tweet.findUnique({
+            where: { id: tweetId },
+            select: { authorId: true }
+        });
+
+        if (!tweet) {
+            throw new Error("Tweet not found");
+        }
+
+        if (tweet.authorId !== userId) {
+            throw new Error("You are not authorized to delete this tweet");
+        }
+
+        await prisma.tweet.delete({
+            where: { id: tweetId }
+        });
+
+        revalidatePath("/");
+        return { success: true };
+    });
