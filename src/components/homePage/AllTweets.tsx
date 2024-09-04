@@ -39,7 +39,7 @@ export const AllTweets = async ({tweet, user}: {tweet: any, user: any}) => {
           <span className="text-sm group-hover:text-green-500 duration-75 text-white/80 font-normal">{tweet._count.retweets}</span>
         </div>
         <div className="flex items-center group cursor-pointer gap-2 text-gray-400">
-            <LikedTheTweet tweet={tweet} hasLiked={hasLikedBoolean} userId={user.id}/>
+            <LikedTheTweet tweet={tweet} hasLiked={hasLikedBoolean}/>
         </div>
         <div className="flex items-center group cursor-pointer gap-2 text-gray-400">
           <IoIosStats size={19} className="group-hover:text-blue-500 duration-75"/>
