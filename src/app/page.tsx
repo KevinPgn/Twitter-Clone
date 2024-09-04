@@ -30,6 +30,11 @@ export default async function Home() {
           bookmarks: true,
           retweets: true,
         }
+      },
+      likes: {
+        select: {
+          authorId: true,
+        }
       }
     },
     orderBy: {

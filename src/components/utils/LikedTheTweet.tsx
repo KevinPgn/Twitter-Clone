@@ -7,7 +7,7 @@ export const LikedTheTweet = ({tweet, hasLiked}: {tweet: any, hasLiked: any}) =>
   onClick={async () => {
     await likeTheTweet({tweetId: tweet.id})
   }}>
-    <FiHeart size={19} className={`group-hover:text-red-500 duration-75 ${hasLiked ? "text-red-500" : ""}`}/>
-    <span className={`text-sm group-hover:text-red-500 duration-75 font-normal ${hasLiked ? "text-red-500" : ""}`}>{tweet._count.likes}</span>
+    <FiHeart size={19} className={`group-hover:text-red-500 duration-75 ${hasLiked.length > 0 ? "text-red-500" : ""}`}/>
+    <span className={`text-sm group-hover:text-red-500 duration-75 font-normal ${hasLiked.length > 0 ? "text-red-500" : ""}`}>{tweet._count.likes}</span>
   </div>
 }

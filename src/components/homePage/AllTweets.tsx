@@ -5,11 +5,9 @@ import { AiOutlineRetweet } from "react-icons/ai";
 import { IoIosStats } from "react-icons/io";
 import { EllipsisTweet } from "./EllipsisTweet";
 import { LikedTheTweet } from "../utils/LikedTheTweet";
-import { checkIfTheUserHasAlreadyLikedTheTweet } from "@/server/Actions";
 
 export const AllTweets = async ({tweet, user}: {tweet: any, user: any}) => {
-  const hasLiked = await checkIfTheUserHasAlreadyLikedTheTweet({tweetId: tweet.id});
-  const hasLikedBoolean = hasLiked?.data !== null
+  const hasLiked = tweet.likes.map((like: any) => like.authorId)
 
   return <div 
   className="flex hover:bg-white/5 duration-75 cursor-pointer items-start gap-3 px-4 border-b border-white/10 p-3">
@@ -39,7 +37,7 @@ export const AllTweets = async ({tweet, user}: {tweet: any, user: any}) => {
           <span className="text-sm group-hover:text-green-500 duration-75 text-white/80 font-normal">{tweet._count.retweets}</span>
         </div>
         <div className="flex items-center group cursor-pointer gap-2 text-gray-400">
-            <LikedTheTweet tweet={tweet} hasLiked={hasLikedBoolean}/>
+            <LikedTheTweet tweet={tweet} hasLiked={hasLiked}/>
         </div>
         <div className="flex items-center group cursor-pointer gap-2 text-gray-400">
           <IoIosStats size={19} className="group-hover:text-blue-500 duration-75"/>
