@@ -14,11 +14,11 @@ export const AllTweets = ({tweet}: {tweet: any}) => {
         <Link href={`/profile/${tweet.author.id}`} className="flex items-center gap-3">
           <span className="text-sm text-white font-semibold">{tweet.author.name}</span>
           <span className="text-sm text-gray-500 font-normal">
-            {formatDistanceToNow(tweet.createdAt, {addSuffix: false}).replace('about ', '').replace(' hour', 'h')}
+            {formatDistanceToNow(tweet.createdAt, {addSuffix: false}).replace('about ', '').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
           </span>
         </Link>
       </div>
-      <p className="text-sm text-white/90 mt-3">{tweet.content}</p>
+      <p className="text-md text-white/90 mt-3">{tweet.content}</p>
       {tweet.imageUrl && <img src={tweet.imageUrl} alt="tweet image" className="w-full h-full object-cover mt-3 rounded-xl" />}
       
       <div className="flex items-center justify-between mt-3">
