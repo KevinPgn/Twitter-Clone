@@ -147,3 +147,21 @@ export const deleteTweet = authenticatedAction
         revalidatePath("/");
         return { success: true };
     });
+
+export const createCommentToTheTweet = authenticatedAction
+    .schema(z.object({
+        tweetId: z.string(),
+        content: z.string().min(1).max(280),
+    }))
+    .action(async ({ parsedInput: { tweetId, content }, ctx: { userId } }) => {
+        await prisma.comment.create({
+            data: {
+                content,
+                tweetId,
+                authorId: userId,
+            }
+        });
+
+        revalidatePath(`/tweet/${tweetId}`);
+        return { success: true };
+    });
