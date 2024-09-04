@@ -5,6 +5,8 @@ import { Image, ImagePlay, List, Smile, CalendarClock, MapPin } from 'lucide-rea
 import EmojiPicker, { Theme } from 'emoji-picker-react';
 import { useRouter } from 'next/navigation';
 import { createTweet } from '@/server/Actions';
+import { UploadButton } from '@/lib/uploadthing';
+
 
 export const FormCreateTweet = ({user}: {user: any}) => {
   const [content, setContent] = useState('');
@@ -53,6 +55,15 @@ export const FormCreateTweet = ({user}: {user: any}) => {
             <div className='flex items-center gap-4'>
               <div>
                 <Image size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
+                <UploadButton
+                endpoint="imageUploader"
+                onClientUploadComplete={(res: any) => {
+                  console.log(res)
+                }}
+                onUploadError={(error: any) => {
+                  console.log(error)
+                }}
+                />
               </div>
                 <ImagePlay size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
                 <Smile 
