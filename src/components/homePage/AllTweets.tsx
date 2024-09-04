@@ -6,8 +6,8 @@ import { IoIosStats } from "react-icons/io";
 import { EllipsisTweet } from "./EllipsisTweet";
 import { LikedTheTweet } from "../utils/LikedTheTweet";
 
-export const AllTweets = async ({tweet, user}: {tweet: any, user: any}) => {
-  const hasLiked = tweet.likes.map((like: any) => like.authorId)
+export const AllTweets = ({tweet, user}: {tweet: any, user: any}) => {
+  const hasLiked = tweet.isLiked
 
   return <div 
   className="flex hover:bg-white/5 duration-75 cursor-pointer items-start gap-3 px-4 border-b border-white/10 p-3">

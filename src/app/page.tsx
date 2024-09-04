@@ -31,11 +31,14 @@ export default async function Home() {
           retweets: true,
         }
       },
-      likes: {
+      likes: user ? {
+        where: {
+          authorId: user.id
+        },
         select: {
           authorId: true,
         }
-      }
+      } : undefined,
     },
     orderBy: {
       createdAt: "desc"
@@ -43,14 +46,19 @@ export default async function Home() {
     take: 10
   })
 
+  const tweetsWithLikeStatus = tweets.map((tweet) => ({
+    ...tweet,
+    isLiked: tweet.likes && tweet.likes.length > 0
+  }));
+
   return (
     <div className="flex flex-1">
       <main className="flex-1 h-full border-l border-r border-white/10">
         <Categories />
         <FormCreateTweet user={user}/>
 
-        {tweets.length > 0 ? (
-          tweets.map((tweet) => (
+        {tweetsWithLikeStatus.length > 0 ? (
+          tweetsWithLikeStatus.map((tweet) => (
             <AllTweets key={tweet.id} tweet={tweet} user={user}/>
           ))
         ): null}
