@@ -7,9 +7,11 @@ import { useRouter } from 'next/navigation';
 import { createTweet } from '@/server/Actions';
 import { UploadButton } from '@/lib/uploadthing';
 
-
 export const FormCreateTweet = ({user}: {user: any}) => {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState<string>('');
+  const [image, setImage] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const limitContent = 280;
   const router = useRouter();
@@ -29,9 +31,30 @@ export const FormCreateTweet = ({user}: {user: any}) => {
     setContent(prevContent => prevContent + emojiData.emoji);
     setShowEmojiPicker(false);
   };
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (content.length === 0 || content.length > limitContent) return;
+    try {
+      await createTweet({content, imageUrl: image});
+      setContent('');
+      setImage(null);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-  return <form className="flex gap-3 items-start border-b border-white/10 p-4">
+  return <form onSubmit={handleSubmit} className="flex gap-3 items-start border-b border-white/10 p-4">
     <img
     onClick={() => router.push(`/profile/${user.id}`)}
     src={user.image} alt="user pdp" className="w-10 h-10 rounded-full cursor-pointer" />
@@ -39,14 +62,13 @@ export const FormCreateTweet = ({user}: {user: any}) => {
     <div className="flex flex-1 flex-col gap-2 py-1">
         <textarea 
         ref={textareaRef}
-        placeholder="Quoi de neuf ?!"
-        name="content" 
-        value={content}
         onChange={handleChange}
+        placeholder="Quoi de neuf ?!"
         className={`bg-transparent text-lg outline-none font-normal ${
           content.length > limitContent ? 'text-red-500' : 'text-white'
         } placeholder:text-white/50 resize-none w-full overflow-hidden`}
         ></textarea>
+        {image && <img src={image} alt="image" className='w-full h-full object-cover' />}
         {content.length > limitContent && (
           <span className='text-red-500 text-sm'>{content.length} / {limitContent}</span>
         )}
@@ -57,13 +79,27 @@ export const FormCreateTweet = ({user}: {user: any}) => {
                 <Image size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
                 <UploadButton
                 endpoint="imageUploader"
-                onClientUploadComplete={(res: any) => {
-                  console.log(res)
+                onClientUploadComplete={(res) => {
+                  if (res && res.length > 0) {
+                    setImage(res[0].url);
+                  }
                 }}
-                onUploadError={(error: any) => {
-                  console.log(error)
+                onUploadError={(error) => {
+                  console.error(error);
                 }}
-                />
+              />
+              <label
+                className="bg-transparent text-white p-2 rounded-full cursor-pointer"
+                onClick={() => document.getElementById('file-upload')?.click()}
+              >
+              </label>
+              <input
+                id="file-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                style={{ display: 'none' }}
+              />
               </div>
                 <ImagePlay size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
                 <Smile 
@@ -112,7 +148,7 @@ export const FormCreateTweet = ({user}: {user: any}) => {
                 )}
 
                 <div className='h-[30px] w-[1px] bg-white/10'></div>
-                <Button className='bg-blue-500 hover:bg-blue-600 h-fit text-sm rounded-full'
+                <Button type='submit' className='bg-blue-500 hover:bg-blue-600 h-fit text-sm rounded-full'
                 disabled={content.length === 0 || content.length > limitContent}>Poster</Button>
             </div>
         </div>
