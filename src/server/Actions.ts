@@ -165,3 +165,35 @@ export const createCommentToTheTweet = authenticatedAction
         revalidatePath(`/tweet/${tweetId}`);
         return { success: true };
     });
+
+export const likeTheTweet = authenticatedAction
+    .schema(z.object({
+        tweetId: z.string(),
+    }))
+    .action(async ({ parsedInput: { tweetId }, ctx: { userId } }) => {
+        const existingLike = await prisma.likes.findUnique({
+            where: {
+                authorId_tweetId: {
+                    authorId: userId,
+                    tweetId,
+                }
+            }
+        });
+
+        if (existingLike) {
+            await prisma.likes.delete({
+                where: {
+                    id: existingLike.id,
+                }
+            });
+        } else {
+            await prisma.likes.create({
+            data: {
+                tweetId,
+                    authorId: userId,
+                }
+            });
+        }
+
+        revalidatePath(`/`);
+    });
