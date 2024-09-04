@@ -2,14 +2,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Image, ImagePlay, List, Smile, CalendarClock, MapPin } from 'lucide-react';
-import EmojiPicker, { Theme } from 'emoji-picker-react';
+import EmojiPicker, { Theme, EmojiClickData } from 'emoji-picker-react';
 import { useRouter } from 'next/navigation';
 import { createTweet } from '@/server/Actions';
 import { UploadDropzone } from '@/lib/uploadthing';
 
 export const FormCreateTweet = ({user}: {user: any}) => {
   const [content, setContent] = useState<string>('');
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string | null>("");
   const [isActive, setIsActive] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -27,8 +27,13 @@ export const FormCreateTweet = ({user}: {user: any}) => {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
-  const handleEmojiClick = (emojiData: any) => {
-    setContent(prevContent => prevContent + emojiData.emoji);
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
+    const emoji = emojiData.emoji;
+    const newContent = content + emoji;
+    setContent(newContent);
+    if (textareaRef.current) {
+      textareaRef.current.value = newContent;
+    }
     setShowEmojiPicker(false);
   };
 
@@ -36,7 +41,8 @@ export const FormCreateTweet = ({user}: {user: any}) => {
     e.preventDefault();
     if (content.length === 0 || content.length > limitContent) return;
     try {
-      await createTweet({content, imageUrl: image});
+      const test = await createTweet({content, imageUrl: image});
+      console.log(test);
       setContent('');
       setImage(null);
     } catch (error) {
@@ -53,6 +59,7 @@ export const FormCreateTweet = ({user}: {user: any}) => {
         <textarea 
         ref={textareaRef}
         onChange={handleChange}
+        value={content}
         placeholder="Quoi de neuf ?!"
         className={`bg-transparent text-lg outline-none font-normal ${
           content.length > limitContent ? 'text-red-500' : 'text-white'
