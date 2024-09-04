@@ -10,7 +10,7 @@ import { UploadButton } from '@/lib/uploadthing';
 export const FormCreateTweet = ({user}: {user: any}) => {
   const [content, setContent] = useState<string>('');
   const [image, setImage] = useState<string | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [isActive, setIsActive] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const limitContent = 280;
@@ -31,16 +31,6 @@ export const FormCreateTweet = ({user}: {user: any}) => {
     setContent(prevContent => prevContent + emojiData.emoji);
     setShowEmojiPicker(false);
   };
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -75,32 +65,9 @@ export const FormCreateTweet = ({user}: {user: any}) => {
     
         <div className='flex items-center justify-between'>
             <div className='flex items-center gap-4'>
-              <div>
-                <Image size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
-                <UploadButton
-                endpoint="imageUploader"
-                onClientUploadComplete={(res) => {
-                  if (res && res.length > 0) {
-                    setImage(res[0].url);
-                  }
-                }}
-                onUploadError={(error) => {
-                  console.error(error);
-                }}
-              />
-              <label
-                className="bg-transparent text-white p-2 rounded-full cursor-pointer"
-                onClick={() => document.getElementById('file-upload')?.click()}
-              >
-              </label>
-              <input
-                id="file-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                style={{ display: 'none' }}
-              />
-              </div>
+                <Image
+                onClick={() => setIsActive(!isActive)}
+                size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
                 <ImagePlay size={20} className='cursor-pointer text-blue-400 hover:text-blue-500 duration-75'/>
                 <Smile 
                 onClick={() => setShowEmojiPicker(!showEmojiPicker)}
@@ -153,5 +120,25 @@ export const FormCreateTweet = ({user}: {user: any}) => {
             </div>
         </div>
     </div>
+
+    {isActive && (
+      <div
+      onClick={() => setIsActive(false)}
+      className='absolute top-0 left-0 inset-0 flex items-center justify-center bg-black/50'>
+        <div
+        onClick={(e) => e.stopPropagation()}
+        className='bg-white/10 p-4 rounded-lg'>
+          <UploadButton
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+          setImage(res[0].url);
+        }}
+        onUploadError={(error) => {
+          console.log(error);
+        }}
+        />
+        </div>
+      </div>
+    )}
   </form>
 }
