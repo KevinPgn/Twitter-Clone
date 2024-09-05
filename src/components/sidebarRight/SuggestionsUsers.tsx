@@ -12,6 +12,11 @@ export const SuggestionsUsers = async () => {
                 not: user
             }
         },
+        select:{
+            id: true,
+            name: true,
+            image: true,
+        },
         orderBy: {
             followers: {
                 _count: "desc"
@@ -19,7 +24,7 @@ export const SuggestionsUsers = async () => {
         },
         take: 5
     })
-
+    console.log(users)
 
   return <div className="border border-white/10 rounded-2xl flex flex-col gap-5 p-5">
     <h2 className="text-xl font-bold mb-2">Suggestions</h2>
