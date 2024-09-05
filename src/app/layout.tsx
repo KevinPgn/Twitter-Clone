@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-black text-white">
-      <body className={"flex h-screen max-w-[1350px] gap-7 mx-auto " + inter.className}>
+      <body className={"flex h-screen max-w-[1300px] gap-7 mx-auto " + inter.className}>
         <SessionProvider>
           <Sidebar />
           {children}

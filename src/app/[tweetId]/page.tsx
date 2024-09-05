@@ -1,7 +1,5 @@
-import { AllTweets } from "@/components/homePage/AllTweets";
-import { Categories } from "@/components/homePage/Categories";
-import { FormCreateTweet } from "@/components/homePage/FormCreateTweet";
 import { BackToHomePage } from "@/components/tweetDetails/BackToHomePage";
+import { TweetDetailsId } from "@/components/tweetDetails/TweetDetailsId";
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
@@ -78,7 +76,7 @@ export default async function TweetIdPage({ params }: TweetIdPageProps) {
     <div className="flex flex-1 gap-5">
       <main className="flex-1 h-full border-l border-r border-white/10">
         <BackToHomePage />
-
+        <TweetDetailsId tweet={tweetWithStatus} user={user}/>
       </main>
     </div>
   );

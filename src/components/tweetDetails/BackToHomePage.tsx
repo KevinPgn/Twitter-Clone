@@ -6,7 +6,7 @@ import { Button } from "../ui/button"
 export const BackToHomePage = () => {
   const router = useRouter()
 
-  return <div className="flex items-center gap-2 px-4 py-3">
+  return <div className="flex items-center gap-4 px-4 py-3">
     <Button variant="ghost" size="icon" onClick={() => router.back()}>
         <ArrowLeft size={20} className="cursor-pointer" />
     </Button>
