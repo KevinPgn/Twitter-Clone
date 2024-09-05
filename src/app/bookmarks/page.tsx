@@ -77,9 +77,15 @@ const BookmarksPage = async () => {
 
     return (
     <main className="flex-1 h-full border-l border-r border-white/10">
-        {tweetBookmarkedWithStatus.map((tweet) => (
-            <AllTweets key={tweet.id} tweet={tweet} user={user} />
-        ))}
+        {tweetBookmarkedWithStatus.length === 0 ? (
+            <div className="flex items-center justify-center h-full">
+                <p className="text-gray-500">No bookmarks found</p>
+            </div>
+        ) : (
+            tweetBookmarkedWithStatus.map((tweet) => (
+                <AllTweets key={tweet.id} tweet={tweet} user={user} />
+            ))
+        )}
     </main>
   )
 }
