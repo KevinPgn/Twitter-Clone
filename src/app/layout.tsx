@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import { SessionProvider } from "next-auth/react";
+import { SidebarRight } from "@/components/sidebarRight/SidebarRight";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,10 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-black text-white">
-      <body className={"flex h-screen max-w-[1250px] gap-7 mx-auto " + inter.className}>
+      <body className={"flex h-screen max-w-[1350px] gap-7 mx-auto " + inter.className}>
         <SessionProvider>
           <Sidebar />
           {children}
+          <SidebarRight />
         </SessionProvider>
       </body>
     </html>
