@@ -1,14 +1,24 @@
 import { AllTweets } from "@/components/homePage/AllTweets";
 import { Categories } from "@/components/homePage/Categories";
 import { FormCreateTweet } from "@/components/homePage/FormCreateTweet";
+import { BackToHomePage } from "@/components/tweetDetails/BackToHomePage";
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
-export default async function Home() {
+interface TweetIdPageProps {
+  params: {
+    tweetId: string
+  }
+}
+
+export default async function TweetIdPage({ params }: TweetIdPageProps) {
   const session = await auth()
   const user = session?.user
   
-  const tweets = await prisma.tweet.findMany({
+  const tweet = await prisma.tweet.findUnique({
+    where: {
+      id: params.tweetId
+    },
     select: {
       id: true,
       author: {
@@ -55,30 +65,20 @@ export default async function Home() {
         }
       } : undefined,
     },
-    orderBy: {
-      createdAt: "desc"
-    },
-    take: 10
   })
 
-  const tweetsWithStatus = tweets.map((tweet) => ({
+  const tweetWithStatus = tweet ? ({
     ...tweet,
     isLiked: tweet.likes && tweet.likes.length > 0,
     isBookmarked: tweet.bookmarks && tweet.bookmarks.length > 0,
     isRetweeted: tweet.retweets && tweet.retweets.length > 0
-  }));
+  }) : null;
 
   return (
     <div className="flex flex-1 gap-5">
       <main className="flex-1 h-full border-l border-r border-white/10">
-        <Categories />
-        <FormCreateTweet user={user}/>
+        <BackToHomePage />
 
-        {tweetsWithStatus.length > 0 ? (
-          tweetsWithStatus.map((tweet) => (
-            <AllTweets key={tweet.id} tweet={tweet} user={user}/>
-          ))
-        ): null}
       </main>
     </div>
   );

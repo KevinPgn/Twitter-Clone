@@ -53,7 +53,7 @@ export const FormCreateTweet = ({user}: {user: any}) => {
   return <form onSubmit={handleSubmit} className="flex gap-3 items-start border-b border-white/10 p-4">
     <img
     onClick={() => router.push(`/profile/${user.id}`)}
-    src={user.image} alt="user pdp" className="w-10 h-10 rounded-full cursor-pointer" />
+    src={user && user.image} alt="user pdp" className="w-10 h-10 rounded-full cursor-pointer" />
 
     <div className="flex flex-1 flex-col gap-2 py-1">
         <textarea 

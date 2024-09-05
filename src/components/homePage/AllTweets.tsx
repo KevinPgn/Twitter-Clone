@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { formatDistanceToNow } from "date-fns"
 import { FiMessageCircle, FiBookmark, FiShare } from "react-icons/fi";
-import { AiOutlineRetweet } from "react-icons/ai";
 import { IoIosStats } from "react-icons/io";
 import { EllipsisTweet } from "./EllipsisTweet";
 import { LikedTheTweet } from "../utils/LikedTheTweet";
@@ -28,8 +27,10 @@ export const AllTweets = ({tweet, user}: {tweet: any, user: any}) => {
         </Link>
         {user && user.id === tweet.author.id && <EllipsisTweet tweetId={tweet.id} />}
       </div>
-      <p className="text-md text-white/90 mt-1">{tweet.content}</p>
-      {tweet.imageUrl && <img src={tweet.imageUrl} alt="tweet image" className="w-full h-full object-cover mt-3 rounded-xl" />}
+      <Link href={`/${tweet.id}`}>
+        <p className="text-md text-white/90 mt-1">{tweet.content}</p>
+        {tweet.imageUrl && <img src={tweet.imageUrl} alt="tweet image" className="w-full h-full object-cover mt-3 rounded-xl" />}
+      </Link>
       
       <div className="flex items-center justify-between mt-3">
         <div className="flex items-center group cursor-pointer gap-2 text-gray-400">
