@@ -1,8 +1,8 @@
 import { Button } from "../ui/button"
 
-export const UserProfile = ({user, userConnected}: {user: any, userConnected: any}) => {
+export const UserProfiled = ({user, userConnected}: {user: any, userConnected: any}) => {
   return (
-    <div className="text-white">
+    <div className="text-white border-b border-white/10 pb-3">
       <div className="relative">
         {/* Banner image placeholder */}
         {user.banner ? <img src={user.banner} alt="Banner" className="w-full h-[200px] object-cover" /> : (
@@ -13,7 +13,7 @@ export const UserProfile = ({user, userConnected}: {user: any, userConnected: an
           <img 
             src={user.image} 
             alt={user.name} 
-            className="w-32 h-32 rounded-full border-4 border-gray-900 relative -top-12"
+            className="w-32 h-32 object-cover rounded-full border-4 border-gray-900 relative -top-12"
           />
           {userConnected === user.id ? (
             <Button variant="ghost" className="text-sm mt-2 border border-white/10 px-4 py-1 rounded-full">

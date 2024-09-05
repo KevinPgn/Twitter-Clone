@@ -7,6 +7,7 @@ interface UserProfileProps {
 }
 
 const UserProfile = ({params}: UserProfileProps) => {
+  
   return (
     <main className="flex-1 h-full border-l border-r border-white/10">
         
