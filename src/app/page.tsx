@@ -69,7 +69,6 @@ export default async function Home() {
   }));
 
   return (
-    <div className="flex flex-1 gap-5">
       <main className="flex-1 h-full border-l border-r border-white/10">
         <Categories />
         <FormCreateTweet user={user}/>
@@ -80,6 +79,5 @@ export default async function Home() {
           ))
         ): null}
       </main>
-    </div>
   );
 }
