@@ -55,13 +55,16 @@ export const TweetDetailsId = ({tweet, user}: {tweet: any, user: any}) => {
 
     <div className="mt-5 flex flex-col">
     {tweet.comments.map((comment: any) => (
-      <div className="flex flex-col border-b border-white/10 pb-5 gap-3 mt-3" key={comment.id}>
-        <div className="flex items-center gap-3">
-          <img src={comment.author.image} alt="user pdp" className="w-10 h-10 rounded-full" />
-          <span className="text-sm font-semibold">{comment.author.name}</span>
-        </div>
+      <div className="flex gap-3 border-b cursor-pointer hover:bg-white/5 p-3 duration-75 border-white/10" key={comment.id}>
+        <img src={comment.author.image} alt="user pdp" className="w-10 h-10 rounded-full" />
+        <div className="flex flex-col w-full">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold">{comment.author.name}</span>
+            <span className="text-gray-500">@{comment.author.name}</span>
+          </div>
+          <p className="text-white/90 mt-2">{comment.content}</p>
 
-        <p className="text-sm text-white/90 px-5">{comment.content}</p>
+        </div>
       </div>
     ))}
     </div>
