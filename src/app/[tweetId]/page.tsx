@@ -30,6 +30,19 @@ export default async function TweetIdPage({ params }: TweetIdPageProps) {
       imageUrl: true,
       createdAt: true,
       views: true,
+      comments: {
+        select: {
+          id: true,
+          content: true,
+          author: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            }
+          }
+        }
+      },
       _count: {
         select: {
           comments: true,

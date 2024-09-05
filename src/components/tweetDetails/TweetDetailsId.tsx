@@ -4,6 +4,7 @@ import { IoIosStats } from "react-icons/io"
 import { BookMarkedTheTweet } from "../utils/BookMarkedTheTweet"
 import { LikedTheTweet } from "../utils/LikedTheTweet"
 import { RetweetTheTweets } from "../utils/RetweetTheTweets"
+import { CommentsForm } from "./CommentsForm"
 
 export const TweetDetailsId = ({tweet, user}: {tweet: any, user: any}) => {
   const hasLiked = tweet.isLiked
@@ -48,6 +49,21 @@ export const TweetDetailsId = ({tweet, user}: {tweet: any, user: any}) => {
           <BookMarkedTheTweet tweet={tweet} hasBookmarked={hasBookmarked}/>
           <FiShare size={19} className="cursor-pointer hover:text-blue-500 duration-75"/>
         </div>
+    </div>
+
+    {user ? <CommentsForm userImage={user.image} tweetId={tweet.id}/> : <div>Veuillez vous connecter pour mettre un commentaire</div>}
+
+    <div className="mt-5 flex flex-col">
+    {tweet.comments.map((comment: any) => (
+      <div className="flex flex-col border-b border-white/10 pb-5 gap-3 mt-3" key={comment.id}>
+        <div className="flex items-center gap-3">
+          <img src={comment.author.image} alt="user pdp" className="w-10 h-10 rounded-full" />
+          <span className="text-sm font-semibold">{comment.author.name}</span>
+        </div>
+
+        <p className="text-sm text-white/90 px-5">{comment.content}</p>
+      </div>
+    ))}
     </div>
   </div>
 }

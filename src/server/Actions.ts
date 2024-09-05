@@ -261,3 +261,20 @@ export const retweetTheTweet = authenticatedAction
 
         revalidatePath(`/`);
     });
+
+export const createCommentsToTheTweet = authenticatedAction
+    .schema(z.object({
+        tweetId: z.string(),
+        content: z.string().min(1).max(280),
+    }))
+    .action(async ({ parsedInput: { tweetId, content }, ctx: { userId } }) => {
+        await prisma.comment.create({
+            data: {
+                content,
+                tweetId,
+                authorId: userId,
+            }
+        });
+
+        revalidatePath(`/${tweetId}`);
+    });
