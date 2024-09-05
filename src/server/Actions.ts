@@ -197,3 +197,67 @@ export const likeTheTweet = authenticatedAction
 
         revalidatePath(`/`);
     });
+
+export const bookmarkTheTweet = authenticatedAction
+    .schema(z.object({
+        tweetId: z.string(),
+    }))
+    .action(async ({ parsedInput: { tweetId }, ctx: { userId } }) => {
+        const existingBookmark = await prisma.bookmark.findUnique({
+            where: {
+                authorId_tweetId: {
+                    authorId: userId,
+                    tweetId,
+                }
+            }
+        });
+
+        if (existingBookmark) {
+            await prisma.bookmark.delete({
+                where: {
+                    id: existingBookmark.id,
+                }
+            });
+        } else {
+            await prisma.bookmark.create({
+                data: {
+                    tweetId,
+                    authorId: userId,
+                }
+            });
+        }
+
+        revalidatePath(`/`);
+    });
+
+export const retweetTheTweet = authenticatedAction
+    .schema(z.object({
+        tweetId: z.string(),
+    }))
+    .action(async ({ parsedInput: { tweetId }, ctx: { userId } }) => {
+        const existingRetweet = await prisma.retweet.findUnique({
+            where: {
+                authorId_tweetId: {
+                    authorId: userId,
+                    tweetId,
+                }
+            }
+        });
+
+        if (existingRetweet) {
+            await prisma.retweet.delete({
+                where: {
+                    id: existingRetweet.id,
+                }
+            });
+        } else {
+            await prisma.retweet.create({
+                data: {
+                    tweetId,
+                authorId: userId,
+                }
+            });
+        }
+
+        revalidatePath(`/`);
+    });

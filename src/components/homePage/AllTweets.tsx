@@ -5,9 +5,13 @@ import { AiOutlineRetweet } from "react-icons/ai";
 import { IoIosStats } from "react-icons/io";
 import { EllipsisTweet } from "./EllipsisTweet";
 import { LikedTheTweet } from "../utils/LikedTheTweet";
+import { RetweetTheTweets } from "../utils/RetweetTheTweets";
+import { BookMarkedTheTweet } from "../utils/BookMarkedTheTweet";
 
 export const AllTweets = ({tweet, user}: {tweet: any, user: any}) => {
   const hasLiked = tweet.isLiked
+  const hasRetweeted = tweet.isRetweeted
+  const hasBookmarked = tweet.isBookmarked
 
   return <div 
   className="flex hover:bg-white/5 duration-75 cursor-pointer items-start gap-3 px-4 border-b border-white/10 p-3">
@@ -33,8 +37,7 @@ export const AllTweets = ({tweet, user}: {tweet: any, user: any}) => {
           <span className="text-sm group-hover:text-blue-500 duration-75 text-gray-400 font-normal">{tweet._count.comments}</span>
         </div>
         <div className="flex items-center group cursor-pointer gap-2 text-gray-400">
-          <AiOutlineRetweet size={19} className="group-hover:text-green-500 duration-75"/>
-          <span className="text-sm group-hover:text-green-500 duration-75 text-white/80 font-normal">{tweet._count.retweets}</span>
+            <RetweetTheTweets tweet={tweet} hasRetweeted={hasRetweeted}/>
         </div>
         <div className="flex items-center group cursor-pointer gap-2 text-gray-400">
             <LikedTheTweet tweet={tweet} hasLiked={hasLiked}/>
@@ -45,7 +48,7 @@ export const AllTweets = ({tweet, user}: {tweet: any, user: any}) => {
         </div>
 
         <div className="flex items-center gap-5 text-gray-400">
-          <FiBookmark size={19} className="cursor-pointer hover:text-blue-500 duration-75"/>
+          <BookMarkedTheTweet tweet={tweet} hasBookmarked={hasBookmarked}/>
           <FiShare size={19} className="cursor-pointer hover:text-blue-500 duration-75"/>
         </div>
       </div>

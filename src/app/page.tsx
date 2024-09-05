@@ -39,6 +39,22 @@ export default async function Home() {
           authorId: true,
         }
       } : undefined,
+      retweets: user ? {
+        where: {
+          authorId: user.id
+        },
+        select: {
+          authorId: true,
+        }
+      } : undefined,
+      bookmarks: user ? {
+        where: {
+          authorId: user.id
+        },
+        select: {
+          authorId: true,
+        }
+      } : undefined,
     },
     orderBy: {
       createdAt: "desc"
@@ -46,9 +62,11 @@ export default async function Home() {
     take: 10
   })
 
-  const tweetsWithLikeStatus = tweets.map((tweet) => ({
+  const tweetsWithStatus = tweets.map((tweet) => ({
     ...tweet,
-    isLiked: tweet.likes && tweet.likes.length > 0
+    isLiked: tweet.likes && tweet.likes.length > 0,
+    isBookmarked: tweet.bookmarks && tweet.bookmarks.length > 0,
+    isRetweeted: tweet.retweets && tweet.retweets.length > 0
   }));
 
   return (
@@ -57,8 +75,8 @@ export default async function Home() {
         <Categories />
         <FormCreateTweet user={user}/>
 
-        {tweetsWithLikeStatus.length > 0 ? (
-          tweetsWithLikeStatus.map((tweet) => (
+        {tweetsWithStatus.length > 0 ? (
+          tweetsWithStatus.map((tweet) => (
             <AllTweets key={tweet.id} tweet={tweet} user={user}/>
           ))
         ): null}
