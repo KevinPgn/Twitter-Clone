@@ -1,6 +1,6 @@
 import { Button } from "../ui/button"
 
-export const UserProfile = ({user}: {user: any}) => {
+export const UserProfile = ({user, userConnected}: {user: any, userConnected: any}) => {
   return (
     <div className="text-white">
       <div className="relative">
@@ -15,9 +15,15 @@ export const UserProfile = ({user}: {user: any}) => {
             alt={user.name} 
             className="w-32 h-32 rounded-full border-4 border-gray-900 relative -top-12"
           />
-          <Button variant="ghost" className="text-sm mt-2 border border-white/10 px-4 py-1 rounded-full">
-            Éditer le profil
-          </Button>
+          {userConnected === user.id ? (
+            <Button variant="ghost" className="text-sm mt-2 border border-white/10 px-4 py-1 rounded-full">
+                Éditer le profil
+            </Button>
+          ): (
+            <Button variant="outline" className="text-sm text-black mt-2 border border-white/10 px-4 py-1 rounded-full">
+                Follow
+            </Button>
+          )}
         </div>
       </div>
 

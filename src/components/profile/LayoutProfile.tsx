@@ -1,13 +1,18 @@
 import { RouterBackToHome } from "./RouterBackToHome"
 import prisma from "@/lib/prisma"
 import { UserProfile } from "./UserProfile"
+import { auth } from "@/lib/auth"
 
 export const LayoutProfile = async ({userId}: {userId: string}) => {
-  const user = await prisma.user.findUnique({
+  const session = await auth()
+  const userConnected = session?.user?.id
+
+    const user = await prisma.user.findUnique({
     where: {
       id: userId
     },
     select: {
+        id: true,
         name: true,
         image: true,
         banner: true,
@@ -29,6 +34,6 @@ export const LayoutProfile = async ({userId}: {userId: string}) => {
 
   return <>
     <RouterBackToHome user={user}/>
-    <UserProfile user={user}/>
+    <UserProfile user={user} userConnected={userConnected} />
   </>
 }
