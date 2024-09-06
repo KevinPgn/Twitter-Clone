@@ -93,6 +93,7 @@ model Tweet {
   comments Comment[]
   retweets Retweet[]
   bookmarks Bookmark[]
+  tags Tag[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -144,6 +145,12 @@ model Retweet {
   updatedAt DateTime @updatedAt
 
   @@unique([authorId, tweetId])
+}
+
+model Tag {
+  id String @id @default(cuid())
+  name String
+  tweets Tweet[]
 }
 
 model Bookmark {
