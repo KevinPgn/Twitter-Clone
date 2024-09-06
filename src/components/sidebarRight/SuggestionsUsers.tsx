@@ -8,18 +8,14 @@ export const SuggestionsUsers = async () => {
 
     const users = await prisma.user.findMany({
         where: {
-            AND: [
-                { id: { not: currentUserId } },
-                {
-                    NOT: {
-                        followers: {
-                            some: {
-                                followerId: currentUserId
-                            }
-                        }
-                    }
+            id: {
+                not: currentUserId
+            },
+            followers: {
+                none: {
+                    followingId: currentUserId
                 }
-            ]
+            }
         },
         select: {
             id: true,
@@ -33,6 +29,15 @@ export const SuggestionsUsers = async () => {
         },
         take: 5
     })
+
+    if(users.length === 0) {
+        return <>
+        <div className="border border-white/10 rounded-2xl flex flex-col gap-5 p-5">
+            <h2 className="text-xl font-bold mb-2">Suggestions</h2>
+            <p className="text-gray-500">Aucun utilisateur trouvé</p>
+        </div>
+        </>
+    }
 
   return <div className="border border-white/10 rounded-2xl flex flex-col gap-5 p-5">
     <h2 className="text-xl font-bold mb-2">Suggestions</h2>
