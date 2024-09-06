@@ -2,7 +2,6 @@
 import { Button } from "../ui/button"
 import { followUser } from "@/server/Actions"
 
-
 export const BtnFollow = ({userId, isFollowing}: {userId: string, isFollowing: boolean}) => {
   return <>
     <Button

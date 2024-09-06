@@ -37,6 +37,9 @@ export const UserProfiled = ({user, userConnected}: {user: any, userConnected: a
             {user.birthday}
           </span>
           <span>
+            {user.bio}
+          </span>
+          <span>
             <i className="far fa-calendar-plus mr-1"></i>
             {new Date(user.createdAt).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
           </span>
