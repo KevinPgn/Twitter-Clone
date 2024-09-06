@@ -60,7 +60,7 @@ export default async function Home() {
     },
     take: 10
   })
-
+//todo: Refactoriser le code de likes, retweets et bookmarks pour les rendre plus propre et plus performant.
   const tweetsWithStatus = tweets.map((tweet) => ({
     ...tweet,
     isLiked: tweet.likes && tweet.likes.length > 0,
