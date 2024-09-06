@@ -1,7 +1,8 @@
 import { Button } from "../ui/button"
 import { BtnFollow } from "./BtnFollow"
 
-export const UserProfiled = ({user, userConnected, isFollowing}: {user: any, userConnected: any, isFollowing: boolean}) => {  
+export const UserProfiled = ({user, userConnected}: {user: any, userConnected: any}) => {  
+  const isFollowing = user.following.length > 0
   return (
     <div className="text-white border-b border-white/10 pb-3">
       <div className="relative">

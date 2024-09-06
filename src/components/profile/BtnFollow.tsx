@@ -1,27 +1,14 @@
 "use client"
 import { Button } from "../ui/button"
-import { followUser, unfollowUser } from "@/server/Actions"
-import { useState } from "react"
+import { followUser } from "@/server/Actions"
 
-export const BtnFollow = ({userId, isFollowing: initialIsFollowing}: {userId: string, isFollowing: boolean}) => {
-  const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
 
-  const handleFollowToggle = async () => {
-    if (isFollowing) {
-      await unfollowUser({userId});
-    } else {
-      await followUser({userId});
-    }
-    setIsFollowing(!isFollowing);
-  };
-
-  return (
+export const BtnFollow = ({userId, isFollowing}: {userId: string, isFollowing: boolean}) => {
+  return <>
     <Button
-      onClick={handleFollowToggle}
-      variant="outline"
-      className={`text-sm mt-2 border border-white/10 px-4 py-1 rounded-full ${isFollowing ? 'bg-red-500 hover:bg-red-600 hover:text-white' : 'bg-blue-500 hover:bg-blue-600 hover:text-white'}`}
-    >
-      {isFollowing ? 'Unfollow' : 'Follow'}
+    onClick={async () => await followUser(userId)}
+    variant="outline" className="text-sm text-black mt-2 border border-white/10 px-4 py-1 rounded-full">
+      {isFollowing ? "Unfollow" : "Follow"}
     </Button>
-  );
+  </>
 }

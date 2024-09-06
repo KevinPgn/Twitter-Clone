@@ -16,6 +16,14 @@ export const LayoutProfile = async ({userId}: {userId: string}) => {
         name: true,
         image: true,
         banner: true,
+        following: {
+          where: {
+            followerId: userConnected
+          },
+          select: {
+            followerId: true
+          }
+        },
         birthday: true,
         createdAt: true,
         _count: {
