@@ -1,4 +1,5 @@
 import { Button } from "../ui/button"
+import { BtnFollow } from "./BtnFollow"
 
 export const UserProfiled = ({user, userConnected}: {user: any, userConnected: any}) => {
   return (
@@ -20,9 +21,7 @@ export const UserProfiled = ({user, userConnected}: {user: any, userConnected: a
                 Éditer le profil
             </Button>
           ): (
-            <Button variant="outline" className="text-sm text-black mt-2 border border-white/10 px-4 py-1 rounded-full">
-                Follow
-            </Button>
+            <BtnFollow userId={user.id} />
           )}
         </div>
       </div>

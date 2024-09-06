@@ -278,3 +278,35 @@ export const createCommentsToTheTweet = authenticatedAction
 
         revalidatePath(`/${tweetId}`);
     });
+
+export const followUser = authenticatedAction
+    .schema(z.object({
+        userId: z.string(),
+    }))
+    .action(async ({ parsedInput: { userId }, ctx: { userId: currentUserId } }) => {
+        const existingFollow = await prisma.follow.findUnique({
+            where: {
+                followerId_followingId: {
+                    followerId: userId,
+                    followingId: currentUserId,
+                }
+            }
+        });
+
+        if (existingFollow) {
+            await prisma.follow.delete({
+                where: {
+                    id: existingFollow.id,
+                }
+            });
+        } else {
+            await prisma.follow.create({
+                data: {
+                    followerId: userId,
+                    followingId: currentUserId,
+                }
+            });
+        }
+
+        revalidatePath(`/profile/${userId}`);
+    });

@@ -4,15 +4,24 @@ import prisma from "@/lib/prisma"
 
 export const SuggestionsUsers = async () => {
     const session = await auth()
-    const user = session?.user?.id
+    const currentUserId = session?.user?.id
 
     const users = await prisma.user.findMany({
         where: {
-            id: {
-                not: user
-            }
+            AND: [
+                { id: { not: currentUserId } },
+                {
+                    NOT: {
+                        followers: {
+                            some: {
+                                followerId: currentUserId
+                            }
+                        }
+                    }
+                }
+            ]
         },
-        select:{
+        select: {
             id: true,
             name: true,
             image: true,
@@ -24,7 +33,6 @@ export const SuggestionsUsers = async () => {
         },
         take: 5
     })
-   console.log(users)
 
   return <div className="border border-white/10 rounded-2xl flex flex-col gap-5 p-5">
     <h2 className="text-xl font-bold mb-2">Suggestions</h2>
