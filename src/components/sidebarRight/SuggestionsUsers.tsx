@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth"
 import { Button } from "../ui/button"
 import prisma from "@/lib/prisma"
+import { BtnFollow } from "../profile/BtnFollow"
 
 export const SuggestionsUsers = async () => {
     const session = await auth()
@@ -47,9 +48,7 @@ export const SuggestionsUsers = async () => {
                 <div className="w-10 h-10 rounded-full bg-white/10"></div>
                 <span className="text-sm font-bold">{user.name}</span>
             </div>
-            <Button variant="outline" className="rounded-full px-4 py-2 text-sm text-black">
-                Suivre
-            </Button>
+            <BtnFollow userId={user.id} isFollowing={false} />
         </div>
     ))}
   </div>
