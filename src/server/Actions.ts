@@ -310,3 +310,28 @@ export const followUser = authenticatedAction
 
         revalidatePath(`/profile/${userId}`);
     });
+
+export const unfollowUser = authenticatedAction
+    .schema(z.object({
+        userId: z.string(),
+    }))
+    .action(async ({ parsedInput: { userId }, ctx: { userId: currentUserId } }) => {
+        const existingFollow = await prisma.follow.findUnique({
+            where: {
+                followerId_followingId: {
+                    followerId: userId,
+                    followingId: currentUserId,
+                }
+            }
+        });
+
+        if (existingFollow) {
+            await prisma.follow.delete({
+                where: {
+                    id: existingFollow.id,
+                }
+            });
+        }
+
+        revalidatePath(`/profile/${userId}`);
+    });
