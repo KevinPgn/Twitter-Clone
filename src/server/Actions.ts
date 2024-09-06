@@ -334,4 +334,4 @@ export const unfollowUser = authenticatedAction
         }
 
         revalidatePath(`/profile/${userId}`);
-    });
+    })
