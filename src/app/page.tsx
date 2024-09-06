@@ -30,14 +30,14 @@ export default async function Home() {
           retweets: true,
         }
       },
-      likes: user ? {
+      likes: {
         where: {
-          authorId: user.id
+          authorId: user?.id
         },
         select: {
           authorId: true,
         }
-      } : undefined,
+      },
       retweets: user ? {
         where: {
           authorId: user.id
